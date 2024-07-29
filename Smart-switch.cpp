@@ -55,3 +55,112 @@ const char index_html[] PROGMEM = R"rawliteral(
 </body>
 </html>
 )rawliteral";
+
+// Replaces placeholder with button section in your web page
+String processor (const String& var) {
+//Serial printin (var) ;
+if (var == "BUTTONPLACEHOLDER") {
+String buttons ="";
+for (int i-1; i<-NUM_RELAYS; i++) {
+string relayStateValue = relayState (i) ;
+buttons+= "<h4>Relay #" + String(1) + * - GPIO * + relayGPIOs [i- 1] + "</h>";
+}
+return buttons:
+}
+return String();
+}
+
+
+
+String relayState (int numRelay){
+if (RELAY _NO) {
+    if (digitalRead (relayGPIOs [numRelay-1])) {
+        return "";
+    }
+    else {
+        return "checked";
+    }
+}
+else {
+    if (digitalRead (relayGPIOs [numRelay-1]) ) {
+        return "checked";
+    }
+    else{
+        return "";
+    }
+}
+return "";
+};
+
+
+
+void setup (){
+// Serial port for debugging purposes
+Serial.begin (115200) ;
+
+
+
+// Set all relays to off when the program starts - if set to Normally Open
+for (int i=1; i<=NUM_RELAYS; i++) {
+    pinMode(relayGPIOs[i-1], OUTPUT) ;
+    if(RELAY_NO){
+        digitalWrite (relayGPIOs[i-1], HIGH);
+    }
+    else {
+    digitalWrite (relayGPIOs[i-1], LOW);
+    }
+}
+
+
+// Connect to Wi-Fi
+WiFi.begin (ssid, password) ;
+while(WiFi.status() != WL CONNECTED){
+delay(1000) ;
+Serial.println("Connecting to Wifi..");
+}
+
+// Print ESP8266 Local IP Address
+Serial.printin(WiFi.localIP()) ;
+
+
+// Route for root / web page
+server.on("/", HTTP_GET, [] (AsyncWebServerRequest *request) {
+request-›send_P (200, "text/html", index_html, processor) ;
+});
+
+// Send a GET request to ‹ESP_ IP>/update?relay=<inputMessage>&state=<inputMess
+server.on("/update", HTTP GET, [] (AsyncWebServerRequest *request) {
+String inputMessage;
+String inputParam;
+String inputMessage2;
+String inputParam2;
+
+// GET inputl value on <ESP_IP>/update?relay=<inputMessage>
+if (request->hasParam(PARAM_INPUT_1) & request-›hasParam (PARAM_INPUT_2)){
+inputMessage = request-›getParam(PARAM_INPUT_1) -›value();
+inputParam = PARAM_INPUT_1;
+inputMessage2 = request-›getParam(PARAM_INPUT_2) ->value();
+inputParam2 = PARAM_INPUT_2;
+    if (RELAY_NO) {
+        Serial.print ("NO ") ;
+        digitalWrite(relayGPIOs[inputMessage.toInt() -1], !inputMessage2.toInt())
+    }
+    else{
+        Serial.print ("NC ") ;
+        digitalWrite(relayGPIOs [inputMessage.toInt() -1], inputMessage2.toInt());
+    }
+}
+else{
+    inputMessage = "No message sent"
+    input Param = "none" ;
+    Serial.printin(inputMessage + inputMessage2) ;
+    request-›send(200, "text/plain", "OK") ;
+});
+
+// Start server
+server.begin () ;
+}
+
+void loop(){
+
+}
