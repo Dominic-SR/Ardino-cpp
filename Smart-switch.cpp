@@ -6,7 +6,7 @@
 #define RELAY_NO true
 
 // set number of relays
-#define NUM_RELAYS 4
+#define NUM_RELAYS 4 
 
 // Assign each GPIO to a relay
 int relayGPIOs[NUM_RELAYS] = [14, 5, 4, 12];
@@ -61,9 +61,9 @@ String processor (const String& var) {
 //Serial printin (var) ;
 if (var == "BUTTONPLACEHOLDER") {
 String buttons ="";
-for (int i-1; i<-NUM_RELAYS; i++) {
+for (int i=1; i<=NUM_RELAYS; i++) {
 string relayStateValue = relayState (i) ;
-buttons+= "<h4>Relay #" + String(1) + * - GPIO * + relayGPIOs [i- 1] + "</h>";
+buttons+= "<h4>Relay #" + String(1) + * - GPIO * + relayGPIOs[i-1] + "</h>";
 }
 return buttons:
 }
@@ -74,7 +74,7 @@ return String();
 
 String relayState (int numRelay){
 if (RELAY _NO) {
-    if (digitalRead (relayGPIOs [numRelay-1])) {
+    if (digitalRead(relayGPIOs[numRelay-1])) {
         return "";
     }
     else {
@@ -82,7 +82,7 @@ if (RELAY _NO) {
     }
 }
 else {
-    if (digitalRead (relayGPIOs [numRelay-1]) ) {
+    if (digitalRead(relayGPIOs[numRelay-1]) ) {
         return "checked";
     }
     else{
@@ -143,16 +143,17 @@ inputMessage2 = request-›getParam(PARAM_INPUT_2) ->value();
 inputParam2 = PARAM_INPUT_2;
     if (RELAY_NO) {
         Serial.print ("NO ") ;
-        digitalWrite(relayGPIOs[inputMessage.toInt() -1], !inputMessage2.toInt())
+        digitalWrite(relayGPIOs[inputMessage.toInt()-1], !inputMessage2.toInt())
     }
     else{
         Serial.print ("NC ") ;
-        digitalWrite(relayGPIOs [inputMessage.toInt() -1], inputMessage2.toInt());
+        digitalWrite(relayGPIOs[inputMessage.toInt()-1], inputMessage2.toInt());
     }
 }
 else{
     inputMessage = "No message sent"
     input Param = "none" ;
+}
     Serial.printin(inputMessage + inputMessage2) ;
     request-›send(200, "text/plain", "OK") ;
 });
