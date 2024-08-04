@@ -1,6 +1,6 @@
 //Import required libraries
-#include "ESP8266Wifi.h"
-#include "ESPAsyncWebServer.h"
+#include <ESP8266WiFi.h>
+#include <ESPAsyncWebServer.h>
 
 // set to true to define Relay as Normally open (NO)
 #define RELAY_NO true
@@ -9,11 +9,11 @@
 #define NUM_RELAYS 4 
 
 // Assign each GPIO to a relay
-int relayGPIOs[NUM_RELAYS] = [14, 5, 4, 12];
+int relayGPIOs[NUM_RELAYS] = {14, 5, 4, 12};
 
 //Replace with your network credentials
 const char* ssid ="JioFi2_A98992";
-const char* password = "mm69cbbwmc";
+const char* password ="mm69cbbwmc";
 
 const char* PARAM_INPUT_1 = "relay";
 const char* PARAM_INPUT_2 = "state";
@@ -62,10 +62,10 @@ String processor (const String& var) {
 if (var == "BUTTONPLACEHOLDER") {
 String buttons ="";
 for (int i=1; i<=NUM_RELAYS; i++) {
-string relayStateValue = relayState (i) ;
-buttons+= "<h4>Relay #" + String(1) + * - GPIO * + relayGPIOs[i-1] + "</h>";
+String relayStateValue = relayState (i);
+buttons+="<h4>Relay #"+ String(1) + " - GPIO" +relayGPIOs[i-1]+ "</h>";
 }
-return buttons:
+return buttons;
 }
 return String();
 }
@@ -73,7 +73,7 @@ return String();
 
 
 String relayState (int numRelay){
-if (RELAY _NO) {
+if(RELAY_NO){
     if (digitalRead(relayGPIOs[numRelay-1])) {
         return "";
     }
@@ -114,36 +114,36 @@ for (int i=1; i<=NUM_RELAYS; i++) {
 
 // Connect to Wi-Fi
 WiFi.begin (ssid, password) ;
-while(WiFi.status() != WL CONNECTED){
+while(WiFi.status()!= WL_CONNECTED){
 delay(1000) ;
 Serial.println("Connecting to Wifi..");
 }
 
 // Print ESP8266 Local IP Address
-Serial.printin(WiFi.localIP()) ;
+Serial.println(WiFi.localIP());
 
 
 // Route for root / web page
 server.on("/", HTTP_GET, [] (AsyncWebServerRequest *request) {
-request-›send_P (200, "text/html", index_html, processor) ;
+    request->send_P (200, "text/html", index_html, processor);
 });
 
 // Send a GET request to ‹ESP_ IP>/update?relay=<inputMessage>&state=<inputMess
-server.on("/update", HTTP GET, [] (AsyncWebServerRequest *request) {
+server.on("/update",HTTP_GET,[](AsyncWebServerRequest *request){
 String inputMessage;
 String inputParam;
 String inputMessage2;
 String inputParam2;
 
 // GET inputl value on <ESP_IP>/update?relay=<inputMessage>
-if (request->hasParam(PARAM_INPUT_1) & request-›hasParam (PARAM_INPUT_2)){
-inputMessage = request-›getParam(PARAM_INPUT_1) -›value();
+if (request->hasParam(PARAM_INPUT_1) & request->hasParam (PARAM_INPUT_2)){
+inputMessage = request->getParam(PARAM_INPUT_1)->value();
 inputParam = PARAM_INPUT_1;
-inputMessage2 = request-›getParam(PARAM_INPUT_2) ->value();
+inputMessage2 = request->getParam(PARAM_INPUT_2)->value();
 inputParam2 = PARAM_INPUT_2;
     if (RELAY_NO) {
         Serial.print ("NO ") ;
-        digitalWrite(relayGPIOs[inputMessage.toInt()-1], !inputMessage2.toInt())
+        digitalWrite(relayGPIOs[inputMessage.toInt()-1], !inputMessage2.toInt());
     }
     else{
         Serial.print ("NC ") ;
@@ -151,11 +151,11 @@ inputParam2 = PARAM_INPUT_2;
     }
 }
 else{
-    inputMessage = "No message sent"
-    input Param = "none" ;
+    inputMessage = "No message sent";
+    inputParam = "none" ;
 }
-    Serial.printin(inputMessage + inputMessage2) ;
-    request-›send(200, "text/plain", "OK") ;
+    Serial.println(inputMessage + inputMessage2) ;
+    request->send(200, "text/plain", "OK") ;
 });
 
 // Start server
