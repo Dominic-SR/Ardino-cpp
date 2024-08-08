@@ -9,7 +9,7 @@
 #define NUM_RELAYS 4 
 
 // Assign each GPIO to a relay
-int relayGPIOs[NUM_RELAYS] = {14, 5, 4, 12};
+int relayGPIOs[NUM_RELAYS] = {D1, D2, D3, D4};
 
 //Replace with your network credentials
 const char* ssid ="JioFi2_A98992";
@@ -60,10 +60,11 @@ const char index_html[] PROGMEM = R"rawliteral(
 String processor (const String& var) {
 //Serial printin (var) ;
 if (var == "BUTTONPLACEHOLDER") {
+  
 String buttons ="";
 for (int i=1; i<=NUM_RELAYS; i++) {
-String relayStateValue = relayState (i);
-buttons+="<h4>Relay #"+ String(1) + " - GPIO" +relayGPIOs[i-1]+ "</h>";
+  String relayStateValue = relayState(i);
+  buttons+="<h4>Relay #"+ String(1) + " - GPIO" +relayGPIOs[i-1]+ "</h>";
 }
 return buttons;
 }
@@ -96,7 +97,7 @@ return "";
 
 void setup (){
 // Serial port for debugging purposes
-Serial.begin (115200) ;
+Serial.begin(9600);
 
 
 
