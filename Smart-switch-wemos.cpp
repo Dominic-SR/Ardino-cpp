@@ -12,8 +12,8 @@
 int relayGPIOs[NUM_RELAYS] = {D1, D2, D3, D4};
 
 //Replace with your network credentials
-const char* ssid ="JioFi2_A98992";
-const char* password ="mm69cbbwmc";
+const char* ssid ="";
+const char* password ="";
 
 const char* PARAM_INPUT_1 = "relay";
 const char* PARAM_INPUT_2 = "state";
