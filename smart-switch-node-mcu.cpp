@@ -88,8 +88,8 @@ void loop() {
  
             // Display the HTML web page
             client.println("<!DOCTYPE html><html>");
-            client.println("<head><meta name="viewport" content="width=device-width, initial-scale=1">");
-            client.println("<link rel="icon" href="data:,">");
+            client.println("<head><meta name='viewport' content='width=device-width, initial-scale=1'>");
+            client.println("<link rel='icon' href='data:,'>");
             // CSS to style the on/off buttons
             // Feel free to change the background-color and font-size attributes to fit your preferences
             client.println("<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}");
@@ -104,9 +104,9 @@ void loop() {
             client.println("<p>Relay 1 " + output1State + "</p>");
             // If the output0State is off, it displays the ON button
             if (output1State == "off") {
-              client.println("<p><a href="/0/on"><button class="button">ON</button></a></p>");
+              client.println("<p><a href='/0/on'><button class='button'>ON</button></a></p>");
             } else {
-              client.println("<p><a href="/0/off"><button class="button button2">OFF</button></a></p>");
+              client.println("<p><a href='/0/off'><button class='button button2'>OFF</button></a></p>");
             }
  
             client.println("</body></html>");
